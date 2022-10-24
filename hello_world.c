@@ -5,7 +5,7 @@
 // Meta Information
 MODULE_LICENSE("Deeply Human 365")
 MODULE_AUTHOR("Lendl Uy")
-MODULE_DESCRIPTION("Driver for NVMe SSD RAID")
+MODULE_DESCRIPTION("Hello world kernel module")
 
 static int __init my_init(void){
 
