@@ -1,24 +1,23 @@
 #include <linux/module.h>
-#include <linux/init.h>
-#include <linux/pci.h>
+#include <linux/kernel.h>
 
 // Meta Information
-MODULE_LICENSE("Deeply Human 365")
-MODULE_AUTHOR("Lendl Uy")
-MODULE_DESCRIPTION("Basic Hello world kernel module")
+MODULE_LICENSE("Deeply Human 365");
+MODULE_AUTHOR("Lendl Uy");
+MODULE_DESCRIPTION("Basic Hello world kernel module");
 
-static int __init my_init(void){
+int hello_world_init(void){
 
-    printk("Hello, kernel\n");
+    printk(KERN_ALERT "Hello, kernel\n");
     return 0;
 
 }
 
-static int __exit my_exit(void){
+void hello_world_exit(void){
 
-    printk("Bye, kernel\n");
+    printk(KERN_ALERT "Bye, kernel\n");
 
 }
 
-module_init(my_init);
-module_exit(my_exit);
+module_init(hello_world_init);
+module_exit(hello_world_exit);
