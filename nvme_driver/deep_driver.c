@@ -16,15 +16,20 @@ MODULE_DESCRIPTION("Driver for NVMe SSD control");
  * Can be obtained by running lspci -n in terminal
  * Last byte is DEVICE_ID, second to last byte is VENDOR_ID
 */ 
+
 #define VENDOR_ID 0x15b7
 #define DEVICE_ID 0x5003
 
 static struct pci_dev *ptr;
 
+/* Device ID and vendor ID for NVMe SSDs supported by Deep Driver
+ * Format: PCI_DEVICE(vendor_id, device_id)
+*/
+
 static struct pci_device_id ids[] = {
-	/* Device ID and vendor ID for WDC SN500 NVMe SSD */
+	/* Device ID and vendor ID of WDC SN500 NVMe SSD */
 	{ PCI_DEVICE(0x15b7, 0x5003), },
-	/* Device ID and vendor ID for Samsung NVMe SSDs */
+	/* Device ID and vendor ID of all Samsung NVMe SSDs */
 	{ PCI_DEVICE(0x144d, 0xa800), },
 	{ PCI_DEVICE(0x144d, 0xa802), },
 	{ PCI_DEVICE(0x144d, 0xa804), },
@@ -90,7 +95,11 @@ static int probe(struct pci_dev *ptr, const struct pci_device_id *id)   {
 
     printk(KERN_INFO "Inside the probe function");
 
-	// Check if a PCI device with specified vendor and device ID exists 
+    /* 
+	 * Check if a PCI device with specified vendor and device ID exists
+	 * ptr is 0 if device exists, else it is a negative number
+	*/
+
     ptr = pci_get_device(VENDOR_ID, DEVICE_ID, ptr);
 
 	if (ptr == NULL){
