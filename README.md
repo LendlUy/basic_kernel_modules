@@ -1,4 +1,6 @@
-# Deeply Human 365 Drivers and Kernel Modules Repository
+# Deeply Human 365 
+
+## Drivers and Kernel Modules Repository
 
 This repository is meant to store all of the basic kernel modules and drivers that are written or adapted by Lendl Uy in the process of learning Linux driver development. This repository will continually be updated with kernel module codes.
 
