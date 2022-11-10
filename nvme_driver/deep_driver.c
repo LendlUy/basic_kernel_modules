@@ -47,13 +47,11 @@ static struct pci_device_id ids[] = {
 	{ 0, }
 };
 
-static int read_config_space(void){
+static int read_config_space(struct pci_dev *ptr){
 
-    u8 int_line, int_pin, revision;
+  u8 int_line, int_pin, revision;
 	u16 vendor_id, device_id;
 	u32 bar[6];
-
-    ptr = pci_get_device(VENDOR_ID, DEVICE_ID, ptr);
 
 	pci_read_config_word(ptr, PCI_VENDOR_ID, &vendor_id);
 	printk(KERN_INFO "PCI_VENDOR_ID : 0x%X\n", vendor_id);
@@ -61,7 +59,7 @@ static int read_config_space(void){
 	pci_read_config_word(ptr, PCI_DEVICE_ID, &device_id);
 	printk(KERN_INFO "PCI_DEVICE_ID : 0x%X\n", device_id);
 
-    pci_read_config_byte(ptr, PCI_REVISION_ID, &revision);
+  pci_read_config_byte(ptr, PCI_REVISION_ID, &revision);
 	printk(KERN_INFO "PCI_REVISION_ID : 0x%d\n", revision);
 
 	pci_read_config_dword(ptr, PCI_BASE_ADDRESS_0, &bar[0]);
@@ -88,29 +86,25 @@ static int read_config_space(void){
 	pci_read_config_byte(ptr, PCI_INTERRUPT_PIN, &int_pin);
 	printk(KERN_INFO "PCI_INTERRUPT_PIN : 0x%X \n", int_pin);
 
-    return 0;
+  return 0;
 }
 
 static int probe(struct pci_dev *ptr, const struct pci_device_id *id)   {
 
-    printk(KERN_INFO "Inside the probe function");
+  printk("Inside the probe function\n");
 
-    /* 
+  /* 
 	 * Check if a PCI device with specified vendor and device ID exists
+   * Probe function will not be called if existing nvme driver is already installed
 	 * ptr is 0 if device exists, else it is a negative number
 	*/
 
-    ptr = pci_get_device(VENDOR_ID, DEVICE_ID, ptr);
+  ptr = pci_get_device(VENDOR_ID, DEVICE_ID, ptr);
 
 	if (ptr == NULL){
-        printk("PCI device is not available\n");
-        return -1;
-    }
-
-    if (pci_enable_device(ptr) < 0){
-        printk("Cannot enable PCI device\n");
-        return -1;
-    }
+    printk("PCI device is not available\n");
+    return -1;
+  }
 
 	return 0;
 }
@@ -120,35 +114,53 @@ static void remove(struct pci_dev *ptr){
 }
 
 static struct pci_driver pci_driver = {
-    .name = "deep_driver",
-    .id_table = ids,
-    .probe = probe,
-    .remove = remove,
+  .name = "deep_driver",
+  .id_table = ids,
+  .probe = probe,
+  .remove = remove,
 };
 
 // Driver initialization
 static int __init nvme_init(void){
 
-    printk("Registering driver in the machine");
+  int ret;
 
-	// Prints the PCI configuration space if driver is registered successfully
-	if (pci_register_driver(&pci_driver) >= 0) {
+  if (pci_register_driver(&pci_driver) != 0) {
+    printk("Driver was not registered!\n");
+    return -1;
+  }
 
-		printk("Driver successfully registered!");
-		read_config_space(); 
+  printk("Driver was successfully registered!\n");
 
-		return 0;
-	}
-	
-	printk("Driver was not registered!");
-	return -1;
+  ptr = pci_get_device(VENDOR_ID, DEVICE_ID, ptr);
+
+  read_config_space(ptr);
+
+  ret = pci_enable_device(ptr);
+  if (ret) {
+    printk("PCI device was not enabled!\n");
+    return -1;
+  }
+
+  printk("PCI device was successfully enabled!\n");
+
+  pci_set_master(ptr); // Enables DMA
+  pci_set_mwi(ptr); // Enables PCI Memory-Write-Invalidate
+
+  ret = pci_request_region(ptr, 0x0, "nvme_bar_0"); // Requests a memory region to be used by nvme
+  if (ret != 0) {
+    printk("Requested region was not allocated!\n");
+    return -1;
+  }
+
+  return 0;
 }
 
 // Clean-up/exit
 static void __exit nvme_exit(void){
 
-    printk("Unregistering driver in the machine");
-    pci_unregister_driver(&pci_driver);
+  pci_unregister_driver(&pci_driver);
+  printk("Driver unregistered from the machine\n");
 
 }
 
