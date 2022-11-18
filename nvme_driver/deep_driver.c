@@ -173,8 +173,8 @@ int get_int_pin(struct pci_dev *dev){
 }
 
 /* 
-	* Reads the PCI configuration space of the device
-	*/
+ * Reads the PCI configuration space of the device
+ */
 
 static void read_config_space(struct pci_dev *dev){
 
@@ -262,7 +262,7 @@ static int __init init_nvme(void){
   if (ret != 0) {
     return -1;
   }
-
+  
   //read_config_space(dev);
 
   pci_set_master(dev); // Sets the bus to master for the device
