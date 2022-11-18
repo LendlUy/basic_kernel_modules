@@ -28,24 +28,24 @@ static struct pci_dev *dev;
 */
 
 static struct pci_device_id ids[] = {
-	/* Device ID and vendor ID of WDC SN500 NVMe SSD */
-	{ PCI_DEVICE(0x15b7, 0x5003), },
-	/* Device ID and vendor ID of all Samsung NVMe SSDs */
-	{ PCI_DEVICE(0x144d, 0xa800), },
-	{ PCI_DEVICE(0x144d, 0xa802), },
-	{ PCI_DEVICE(0x144d, 0xa804), },
-	{ PCI_DEVICE(0x144d, 0xa808), },
-	{ PCI_DEVICE(0x144d, 0xa809), },
-	{ PCI_DEVICE(0x144d, 0xa80a), },
-	{ PCI_DEVICE(0x144d, 0xa820), },
-	{ PCI_DEVICE(0x144d, 0xa821), },
-	{ PCI_DEVICE(0x144d, 0xa822), },
-	{ PCI_DEVICE(0x144d, 0xa824), },
-	{ PCI_DEVICE(0x144d, 0xa825), },
-	{ PCI_DEVICE(0x144d, 0xa826), },
-	{ PCI_DEVICE(0x144d, 0xecec), },
-	{ PCI_DEVICE(0x144d, 0xa544), },
-	{ 0, }
+  /* Device ID and vendor ID of WDC SN500 NVMe SSD */
+  { PCI_DEVICE(0x15b7, 0x5003), },
+  /* Device ID and vendor ID of all Samsung NVMe SSDs */
+  { PCI_DEVICE(0x144d, 0xa800), },
+  { PCI_DEVICE(0x144d, 0xa802), },
+  { PCI_DEVICE(0x144d, 0xa804), },
+  { PCI_DEVICE(0x144d, 0xa808), },
+  { PCI_DEVICE(0x144d, 0xa809), },
+  { PCI_DEVICE(0x144d, 0xa80a), },
+  { PCI_DEVICE(0x144d, 0xa820), },
+  { PCI_DEVICE(0x144d, 0xa821), },
+  { PCI_DEVICE(0x144d, 0xa822), },
+  { PCI_DEVICE(0x144d, 0xa824), },
+  { PCI_DEVICE(0x144d, 0xa825), },
+  { PCI_DEVICE(0x144d, 0xa826), },
+  { PCI_DEVICE(0x144d, 0xecec), },
+  { PCI_DEVICE(0x144d, 0xa544), },
+  { 0, }
 };
 
 static int probe(struct pci_dev *dev, const struct pci_device_id *id)   {
@@ -53,19 +53,19 @@ static int probe(struct pci_dev *dev, const struct pci_device_id *id)   {
   printk("Inside the probe function\n");
 
   /* 
-	 * Check if a PCI device with specified vendor and device ID exists
+   * Check if a PCI device with specified vendor and device ID exists
    * Probe function will not be called if existing nvme driver is already installed
-	 * dev is 0 if device exists, else it is a negative number
-	*/
+   * dev is 0 if device exists, else it is a negative number
+   */
 
   dev = pci_get_device(VENDOR_ID, DEVICE_ID, dev);
 
-	if (dev == NULL){
+  if (dev == NULL){
     printk("PCI device is not available!\n");
-    return -1;
+   return -1;
   }
 
-	return 0;
+  return 0;
 }
 
 static void remove(struct pci_dev *dev){
@@ -74,7 +74,7 @@ static void remove(struct pci_dev *dev){
   //pci_clear_master(dev);
   //pci_clear_mwi(dev);
 
-	return;
+  return;
 }
 
 static struct pci_driver pci_driver = {
@@ -86,90 +86,90 @@ static struct pci_driver pci_driver = {
 
 int get_vendor_id(struct pci_dev *dev){
 
-	u16 vendor_id;
+  u16 vendor_id;
   pci_read_config_word(dev, PCI_VENDOR_ID, &vendor_id);
 
-	return vendor_id;
+  return vendor_id;
 }
 
 int get_device_id(struct pci_dev *dev){
 
-	u16 device_id;
+  u16 device_id;
   pci_read_config_word(dev, PCI_DEVICE_ID, &device_id);
 
-	return device_id;
+  return device_id;
 }
 
 int get_revision_id(struct pci_dev *dev){
 
-	u8 revision;
+  u8 revision;
   pci_read_config_byte(dev, PCI_REVISION_ID, &revision);
 
-	return revision;
+  return revision;
 }
 
 int get_pci_bar0(struct pci_dev *dev){
 
-	u8 bar;
+  u8 bar;
   pci_read_config_byte(dev, PCI_BASE_ADDRESS_0, &bar);
 
-	return bar;
+  return bar;
 }
 
 int get_pci_bar1(struct pci_dev *dev){
 
-	u8 bar;
+  u8 bar;
   pci_read_config_byte(dev, PCI_BASE_ADDRESS_1, &bar);
 
-	return bar;
+  return bar;
 }
 
 int get_pci_bar2(struct pci_dev *dev){
 
-	u8 bar;
+  u8 bar;
   pci_read_config_byte(dev, PCI_BASE_ADDRESS_2, &bar);
 
-	return bar;
+  return bar;
 }
 
 int get_pci_bar3(struct pci_dev *dev){
 
-	u8 bar;
+  u8 bar;
   pci_read_config_byte(dev, PCI_BASE_ADDRESS_3, &bar);
 
-	return bar;
+  return bar;
 }
 
 int get_pci_bar4(struct pci_dev *dev){
 
-	u8 bar;
+  u8 bar;
   pci_read_config_byte(dev, PCI_BASE_ADDRESS_4, &bar);
 
-	return bar;
+  return bar;
 }
 
 int get_pci_bar5(struct pci_dev *dev){
 
-	u8 bar;
+  u8 bar;
   pci_read_config_byte(dev, PCI_BASE_ADDRESS_5, &bar);
 
-	return bar;
+  return bar;
 }
 
 int get_int_line(struct pci_dev *dev){
 
-	u8 int_line;
+  u8 int_line;
   pci_read_config_byte(dev, PCI_INTERRUPT_LINE, &int_line);
 
-	return int_line;
+  return int_line;
 }
 
 int get_int_pin(struct pci_dev *dev){
 
-	u8 int_pin;
+  u8 int_pin;
   pci_read_config_byte(dev, PCI_INTERRUPT_PIN, &int_pin);
 
-	return int_pin;
+  return int_pin;
 }
 
 /* 
@@ -179,41 +179,41 @@ int get_int_pin(struct pci_dev *dev){
 static void read_config_space(struct pci_dev *dev){
 
   u8 int_line, int_pin, revision_id;
-	u16 vendor, device_id;
-	u8 bar;
+  u16 vendor, device_id;
+  u8 bar;
 
-	vendor = get_vendor_id(dev);
-	printk(KERN_INFO "PCI_VENDOR_ID : 0x%X\n", vendor);
+  vendor = get_vendor_id(dev);
+  printk(KERN_INFO "PCI_VENDOR_ID : 0x%X\n", vendor);
 
-	device_id = get_device_id(dev);
-	printk(KERN_INFO "PCI_DEVICE_ID : 0x%X\n", device_id);
+  device_id = get_device_id(dev);
+  printk(KERN_INFO "PCI_DEVICE_ID : 0x%X\n", device_id);
 
   revision_id = get_revision_id(dev);
-	printk(KERN_INFO "PCI_REVISION_ID : 0x%d\n", revision_id);
+  printk(KERN_INFO "PCI_REVISION_ID : 0x%d\n", revision_id);
 
-	bar = get_pci_bar0(dev);
-	printk(KERN_INFO "BASE_ADDRESS_REGISTER_0 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_0, bar);
+  bar = get_pci_bar0(dev);
+  printk(KERN_INFO "BASE_ADDRESS_REGISTER_0 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_0, bar);
 
-	bar = get_pci_bar1(dev);
-	printk(KERN_INFO "BASE_ADDRESS_REGISTER_1 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_1, bar);
+  bar = get_pci_bar1(dev);
+  printk(KERN_INFO "BASE_ADDRESS_REGISTER_1 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_1, bar);
 
-	bar = get_pci_bar2(dev);
-	printk(KERN_INFO "BASE_ADDRESS_REGISTER_2 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_2, bar);
+  bar = get_pci_bar2(dev);
+  printk(KERN_INFO "BASE_ADDRESS_REGISTER_2 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_2, bar);
 
-	bar = get_pci_bar3(dev);
-	printk(KERN_INFO "BASE_ADDRESS_REGISTER_3 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_3, bar);
+  bar = get_pci_bar3(dev);
+  printk(KERN_INFO "BASE_ADDRESS_REGISTER_3 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_3, bar);
 
-	bar = get_pci_bar4(dev);
-	printk(KERN_INFO "BASE_ADDRESS_REGISTER_4 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_4, bar);
+  bar = get_pci_bar4(dev);
+  printk(KERN_INFO "BASE_ADDRESS_REGISTER_4 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_4, bar);
 
-	bar = get_pci_bar5(dev);
-	printk(KERN_INFO "BASE_ADDRESS_REGISTER_5 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_5, bar);
+  bar = get_pci_bar5(dev);
+  printk(KERN_INFO "BASE_ADDRESS_REGISTER_5 - 0x%.8X, VAL : 0x%X\n", PCI_BASE_ADDRESS_5, bar);
 
-	int_line = get_int_line(dev);
-	printk(KERN_INFO "PCI_INTERRUPT_LINE : 0x%X \n", int_line);
+  int_line = get_int_line(dev);
+  printk(KERN_INFO "PCI_INTERRUPT_LINE : 0x%X \n", int_line);
 
-	int_pin = get_int_pin(dev);
-	printk(KERN_INFO "PCI_INTERRUPT_PIN : 0x%X \n", int_pin);
+  int_pin = get_int_pin(dev);
+  printk(KERN_INFO "PCI_INTERRUPT_PIN : 0x%X \n", int_pin);
 }
 
 static int enable_nvme(struct pci_dev *dev) {
@@ -288,7 +288,7 @@ static int __init init_nvme(void){
   res_flags = pci_resource_flags(dev, 0);
   printk("resource flags of bar 0: 0x%X\n", res_flags);
 
-	return 0;
+  return 0;
   
 }
 
