@@ -17,6 +17,8 @@ sudo apt install linux-headers-generic
 
 ### Updates
 
+• 11/24/2022: Updated `deep_driver.c` with initialization code for MSI-X.
+
 • 11/10/2022: Updated `deep_driver.c` with initialization code for DMA and MWI. Added `nvme_search.c` to allow searching for connected NVMe drivers and their vendor and device IDs.
 
 • 11/03/2022: Added the `nvme_driver` directory which contains the driver and other possible files pertinent to the "Deep Driver" project.
