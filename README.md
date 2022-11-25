@@ -17,6 +17,8 @@ sudo apt install linux-headers-generic
 
 ### Updates
 
+• 11/25/2022: Updated `deep_driver.c` with setting of DMA mask size to 64 bits.
+
 • 11/24/2022: Updated `deep_driver.c` with initialization code for MSI-X.
 
 • 11/10/2022: Updated `deep_driver.c` with initialization code for DMA and MWI. Added `nvme_search.c` to allow searching for connected NVMe drivers and their vendor and device IDs.
